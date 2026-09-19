@@ -1,0 +1,1775 @@
+﻿import 'package:flutter/material.dart';
+
+import '../widgets/scroll_aware_bottom_navigation.dart';
+
+class ProductSearchScreen extends StatefulWidget {
+  const ProductSearchScreen({
+    super.key,
+    this.autoFocus = true,
+    this.initialCategory,
+  });
+
+  final bool autoFocus;
+  final String? initialCategory;
+
+  @override
+  State<ProductSearchScreen> createState() => _ProductSearchScreenState();
+}
+
+class _ProductSearchScreenState extends State<ProductSearchScreen> {
+  static const _background = Color(0xFFFFFFFF);
+  static const _text = Color(0xFF111111);
+  static const _secondaryText = Color(0xFF444444);
+  static const _mutedText = Color(0xFF707070);
+  static const _border = Color(0xFFE5E5E5);
+  static const _divider = Color(0xFFEEEEEE);
+  static const _searchBackground = Color(0xFFFAFAFA);
+
+  static const List<_SearchProduct> _catalog = [
+    _SearchProduct(
+      name: 'Fresh Milk',
+      unit: '1 L',
+      price: 68,
+      image: 'assets/images/Milk & Dairy.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Milk & Dairy',
+    ),
+    _SearchProduct(
+      name: 'Toned Milk',
+      unit: '1 L',
+      price: 58,
+      image: 'assets/images/Milk & Dairy.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Milk & Dairy',
+    ),
+    _SearchProduct(
+      name: 'Full Cream Milk',
+      unit: '1 L',
+      price: 72,
+      image: 'assets/images/Milk & Dairy.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Milk & Dairy',
+    ),
+    _SearchProduct(
+      name: 'Curd',
+      unit: '500 g',
+      price: 45,
+      image: 'assets/images/Milk & Dairy.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Milk & Dairy',
+    ),
+    _SearchProduct(
+      name: 'Greek Yogurt',
+      unit: '400 g',
+      price: 95,
+      image: 'assets/images/Milk & Dairy.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Milk & Dairy',
+    ),
+    _SearchProduct(
+      name: 'Paneer',
+      unit: '200 g',
+      price: 85,
+      image: 'assets/images/Milk & Dairy.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Milk & Dairy',
+    ),
+    _SearchProduct(
+      name: 'Butter',
+      unit: '100 g',
+      price: 58,
+      image: 'assets/images/Milk & Dairy.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Milk & Dairy',
+    ),
+    _SearchProduct(
+      name: 'Cheese',
+      unit: '200 g',
+      price: 125,
+      image: 'assets/images/Milk & Dairy.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Milk & Dairy',
+    ),
+    _SearchProduct(
+      name: 'Potato Chips',
+      unit: '100 g',
+      price: 40,
+      image: 'assets/images/Snacks.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Snacks',
+    ),
+    _SearchProduct(
+      name: 'Namkeen',
+      unit: '200 g',
+      price: 55,
+      image: 'assets/images/Snacks.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Snacks',
+    ),
+    _SearchProduct(
+      name: 'Biscuits',
+      unit: '200 g',
+      price: 35,
+      image: 'assets/images/Snacks.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Snacks',
+    ),
+    _SearchProduct(
+      name: 'Cookies',
+      unit: '150 g',
+      price: 60,
+      image: 'assets/images/Snacks.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Snacks',
+    ),
+    _SearchProduct(
+      name: 'Popcorn',
+      unit: '100 g',
+      price: 45,
+      image: 'assets/images/Snacks.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Snacks',
+    ),
+    _SearchProduct(
+      name: 'Roasted Peanuts',
+      unit: '200 g',
+      price: 50,
+      image: 'assets/images/Snacks.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Snacks',
+    ),
+    _SearchProduct(
+      name: 'Trail Mix',
+      unit: '200 g',
+      price: 120,
+      image: 'assets/images/Snacks.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Snacks',
+    ),
+    _SearchProduct(
+      name: 'Nachos',
+      unit: '150 g',
+      price: 75,
+      image: 'assets/images/Snacks.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Snacks',
+    ),
+    _SearchProduct(
+      name: 'Mineral Water',
+      unit: '1 L',
+      price: 20,
+      image: 'assets/images/Beverages.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Beverages',
+    ),
+    _SearchProduct(
+      name: 'Soft Drink',
+      unit: '750 ml',
+      price: 40,
+      image: 'assets/images/Beverages.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Beverages',
+    ),
+    _SearchProduct(
+      name: 'Fruit Juice',
+      unit: '1 L',
+      price: 110,
+      image: 'assets/images/Beverages.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Beverages',
+    ),
+    _SearchProduct(
+      name: 'Cold Coffee',
+      unit: '250 ml',
+      price: 55,
+      image: 'assets/images/Beverages.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Beverages',
+    ),
+    _SearchProduct(
+      name: 'Green Tea',
+      unit: '25 Bags',
+      price: 95,
+      image: 'assets/images/Beverages.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Beverages',
+    ),
+    _SearchProduct(
+      name: 'Energy Drink',
+      unit: '250 ml',
+      price: 125,
+      image: 'assets/images/Beverages.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Beverages',
+    ),
+    _SearchProduct(
+      name: 'Lassi',
+      unit: '200 ml',
+      price: 30,
+      image: 'assets/images/Beverages.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Beverages',
+    ),
+    _SearchProduct(
+      name: 'Coconut Water',
+      unit: '1 L',
+      price: 85,
+      image: 'assets/images/Beverages.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Beverages',
+    ),
+    _SearchProduct(
+      name: 'Rice',
+      unit: '5 kg',
+      price: 320,
+      image: 'assets/images/Staples.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Staples',
+    ),
+    _SearchProduct(
+      name: 'Wheat Flour',
+      unit: '5 kg',
+      price: 260,
+      image: 'assets/images/Staples.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Staples',
+    ),
+    _SearchProduct(
+      name: 'Toor Dal',
+      unit: '1 kg',
+      price: 145,
+      image: 'assets/images/Staples.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Staples',
+    ),
+    _SearchProduct(
+      name: 'Sugar',
+      unit: '1 kg',
+      price: 48,
+      image: 'assets/images/Staples.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Staples',
+    ),
+    _SearchProduct(
+      name: 'Salt',
+      unit: '1 kg',
+      price: 25,
+      image: 'assets/images/Staples.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Staples',
+    ),
+    _SearchProduct(
+      name: 'Cooking Oil',
+      unit: '1 L',
+      price: 135,
+      image: 'assets/images/Staples.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Staples',
+    ),
+    _SearchProduct(
+      name: 'Chana Dal',
+      unit: '1 kg',
+      price: 95,
+      image: 'assets/images/Staples.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Staples',
+    ),
+    _SearchProduct(
+      name: 'Poha',
+      unit: '1 kg',
+      price: 70,
+      image: 'assets/images/Staples.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Staples',
+    ),
+    _SearchProduct(
+      name: 'Fresh Bananas',
+      unit: '1 kg',
+      price: 55,
+      image: 'assets/images/Fruits & Vegetables.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Fruits & Vegetables',
+    ),
+    _SearchProduct(
+      name: 'Fresh Tomatoes',
+      unit: '1 kg',
+      price: 48,
+      image: 'assets/images/Fruits & Vegetables.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Fruits & Vegetables',
+    ),
+    _SearchProduct(
+      name: 'Fresh Apples',
+      unit: '1 kg',
+      price: 180,
+      image: 'assets/images/Fruits & Vegetables.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Fruits & Vegetables',
+    ),
+    _SearchProduct(
+      name: 'Fresh Spinach',
+      unit: '1 bunch',
+      price: 30,
+      image: 'assets/images/Fruits & Vegetables.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Fruits & Vegetables',
+    ),
+    _SearchProduct(
+      name: 'Fresh Potatoes',
+      unit: '1 kg',
+      price: 40,
+      image: 'assets/images/Fruits & Vegetables.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Fruits & Vegetables',
+    ),
+    _SearchProduct(
+      name: 'Fresh Onions',
+      unit: '1 kg',
+      price: 45,
+      image: 'assets/images/Fruits & Vegetables.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Fruits & Vegetables',
+    ),
+    _SearchProduct(
+      name: 'Fresh Carrots',
+      unit: '1 kg',
+      price: 55,
+      image: 'assets/images/Fruits & Vegetables.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Fruits & Vegetables',
+    ),
+    _SearchProduct(
+      name: 'Fresh Cucumbers',
+      unit: '1 kg',
+      price: 50,
+      image: 'assets/images/Fruits & Vegetables.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Fruits & Vegetables',
+    ),
+    _SearchProduct(
+      name: 'Shampoo',
+      unit: '340 ml',
+      price: 199,
+      image: 'assets/images/Personal Care.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Personal Care',
+    ),
+    _SearchProduct(
+      name: 'Soap',
+      unit: '100 g',
+      price: 45,
+      image: 'assets/images/Personal Care.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Personal Care',
+    ),
+    _SearchProduct(
+      name: 'Toothpaste',
+      unit: '150 g',
+      price: 95,
+      image: 'assets/images/Personal Care.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Personal Care',
+    ),
+    _SearchProduct(
+      name: 'Face Wash',
+      unit: '100 ml',
+      price: 175,
+      image: 'assets/images/Personal Care.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Personal Care',
+    ),
+    _SearchProduct(
+      name: 'Body Lotion',
+      unit: '200 ml',
+      price: 210,
+      image: 'assets/images/Personal Care.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Personal Care',
+    ),
+    _SearchProduct(
+      name: 'Hair Oil',
+      unit: '200 ml',
+      price: 140,
+      image: 'assets/images/Personal Care.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Personal Care',
+    ),
+    _SearchProduct(
+      name: 'Deodorant',
+      unit: '150 ml',
+      price: 225,
+      image: 'assets/images/Personal Care.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Personal Care',
+    ),
+    _SearchProduct(
+      name: 'Hand Wash',
+      unit: '250 ml',
+      price: 110,
+      image: 'assets/images/Personal Care.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Personal Care',
+    ),
+    _SearchProduct(
+      name: 'Dishwash Liquid',
+      unit: '500 ml',
+      price: 120,
+      image: 'assets/images/Household.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Household',
+    ),
+    _SearchProduct(
+      name: 'Laundry Detergent',
+      unit: '1 kg',
+      price: 110,
+      image: 'assets/images/Household.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Household',
+    ),
+    _SearchProduct(
+      name: 'Floor Cleaner',
+      unit: '1 L',
+      price: 145,
+      image: 'assets/images/Household.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Household',
+    ),
+    _SearchProduct(
+      name: 'Toilet Cleaner',
+      unit: '500 ml',
+      price: 95,
+      image: 'assets/images/Household.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Household',
+    ),
+    _SearchProduct(
+      name: 'Glass Cleaner',
+      unit: '500 ml',
+      price: 105,
+      image: 'assets/images/Household.png',
+      availability: 'Available',
+      store: 'More Megastore',
+      category: 'Household',
+    ),
+    _SearchProduct(
+      name: 'Garbage Bags',
+      unit: '30 bags',
+      price: 85,
+      image: 'assets/images/Household.png',
+      availability: 'Available',
+      store: 'Reliance Smart',
+      category: 'Household',
+    ),
+    _SearchProduct(
+      name: 'Scrub Pads',
+      unit: '5 pieces',
+      price: 55,
+      image: 'assets/images/Household.png',
+      availability: 'Available',
+      store: 'Star Market',
+      category: 'Household',
+    ),
+    _SearchProduct(
+      name: 'Kitchen Towels',
+      unit: '4 pieces',
+      price: 90,
+      image: 'assets/images/Household.png',
+      availability: 'Available',
+      store: 'Croma - HSR Layout',
+      category: 'Household',
+    ),
+  ];
+
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
+  final List<String> _recentSearches = [];
+  final Set<String> _favouriteProducts = <String>{};
+  final Set<String> _activeFilters = <String>{};
+
+  List<_SearchProduct> _searchResults = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_updateSearchResults);
+
+    if (widget.autoFocus) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _searchFocusNode.requestFocus();
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_updateSearchResults);
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _updateSearchResults() {
+    final query = _searchController.text.trim();
+
+    if (query.isEmpty) {
+      if (_searchResults.isNotEmpty && mounted) {
+        setState(() {
+          _searchResults = [];
+        });
+      }
+      return;
+    }
+
+    final normalizedQuery = query.toLowerCase();
+    final nameMatches = <_RankedSearchProduct>[];
+    final fallbackMatches = <_RankedSearchProduct>[];
+
+    for (var index = 0; index < _catalog.length; index++) {
+      final product = _catalog[index];
+      final name = product.name.toLowerCase();
+      final category = product.category.toLowerCase();
+      final store = product.store.toLowerCase();
+      final unit = product.unit.toLowerCase();
+
+      var nameScore = 0;
+
+      if (name == normalizedQuery) {
+        nameScore = 1000;
+      } else if (name.startsWith(normalizedQuery)) {
+        nameScore = 800;
+      } else if (name.contains(normalizedQuery)) {
+        nameScore = 600;
+      }
+
+      if (nameScore > 0) {
+        nameMatches.add(
+          _RankedSearchProduct(
+            product: product,
+            score: nameScore,
+            index: index,
+          ),
+        );
+        continue;
+      }
+
+      var fallbackScore = 0;
+
+      if (category.contains(normalizedQuery)) {
+        fallbackScore += 350;
+      }
+
+      if (store.contains(normalizedQuery)) {
+        fallbackScore += 250;
+      }
+
+      if (unit.contains(normalizedQuery)) {
+        fallbackScore += 100;
+      }
+
+      if (widget.initialCategory != null &&
+          product.category.toLowerCase() ==
+              widget.initialCategory!.toLowerCase()) {
+        fallbackScore += 75;
+      }
+
+      if (fallbackScore > 0) {
+        fallbackMatches.add(
+          _RankedSearchProduct(
+            product: product,
+            score: fallbackScore,
+            index: index,
+          ),
+        );
+      }
+    }
+
+    final ranked =
+        nameMatches.isNotEmpty ? nameMatches : fallbackMatches;
+
+    ranked.sort((a, b) {
+      final scoreComparison = b.score.compareTo(a.score);
+      if (scoreComparison != 0) {
+        return scoreComparison;
+      }
+      return a.index.compareTo(b.index);
+    });
+
+    final results = ranked.map((item) => item.product).toList();
+
+    if (mounted) {
+      setState(() {
+        _searchResults = results;
+      });
+    }
+  }
+
+  void _performSearch() {
+    final query = _searchController.text.trim();
+
+    if (query.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      _recentSearches.removeWhere(
+        (search) => search.toLowerCase() == query.toLowerCase(),
+      );
+      _recentSearches.insert(0, query);
+
+      if (_recentSearches.length > 6) {
+        _recentSearches.removeLast();
+      }
+    });
+
+    _searchFocusNode.requestFocus();
+  }
+
+  void _selectSearch(String search) {
+    _searchController.text = search;
+    _searchController.selection = TextSelection.collapsed(
+      offset: search.length,
+    );
+    _searchFocusNode.requestFocus();
+  }
+
+  void _removeRecentSearch(String search) {
+    setState(() {
+      _recentSearches.remove(search);
+    });
+  }
+
+  void _toggleFavourite(_SearchProduct product) {
+    setState(() {
+      if (_favouriteProducts.contains(product.name)) {
+        _favouriteProducts.remove(product.name);
+      } else {
+        _favouriteProducts.add(product.name);
+      }
+    });
+  }
+
+  static const List<String> _filterLabels = [
+    'Lowest Price',
+    'Nearest Store',
+    'Available',
+    'Open Now',
+  ];
+
+  List<_SearchProduct> get _displayedSearchResults {
+    final results = _searchResults.where((product) {
+      if (_activeFilters.contains('Available') &&
+          product.availability.toLowerCase() != 'available') {
+        return false;
+      }
+
+      if (_activeFilters.contains('Open Now') && !product.isOpen) {
+        return false;
+      }
+
+      return true;
+    }).toList();
+
+    if (_activeFilters.contains('Lowest Price') ||
+        _activeFilters.contains('Nearest Store')) {
+      results.sort((a, b) {
+        if (_activeFilters.contains('Lowest Price')) {
+          final priceComparison = a.price.compareTo(b.price);
+          if (priceComparison != 0) {
+            return priceComparison;
+          }
+        }
+
+        if (_activeFilters.contains('Nearest Store')) {
+          final distanceComparison =
+              a.distanceKm.compareTo(b.distanceKm);
+          if (distanceComparison != 0) {
+            return distanceComparison;
+          }
+        }
+
+        return 0;
+      });
+    }
+
+    return results;
+  }
+
+  void _toggleFilter(String filter) {
+    setState(() {
+      if (_activeFilters.contains(filter)) {
+        _activeFilters.remove(filter);
+      } else {
+        _activeFilters.add(filter);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hasQuery = _searchController.text.trim().isNotEmpty;
+
+    return Scaffold(
+      backgroundColor: _background,
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        bottom: false,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 92),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(context),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 18, 24, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildSearchField(),
+                          if (_recentSearches.isNotEmpty && !hasQuery) ...[
+                            const SizedBox(height: 28),
+                            _buildRecentSearches(),
+                          ],
+                          if (!hasQuery) ...[
+                            const SizedBox(height: 28),
+                            _buildPopularSearches(),
+                            const SizedBox(height: 30),
+                            _buildDiscoveryPreview(),
+                          ] else ...[
+                            const SizedBox(height: 26),
+                            _buildSearchResults(),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: ScrollAwareBottomNavigation(
+                child: _buildBottomNavigation(context),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return SizedBox(
+      height: 64,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            left: 12,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).maybePop(),
+              tooltip: 'Back',
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 21,
+                color: _text,
+              ),
+            ),
+          ),
+          Center(
+            child: Image.asset(
+              'assets/images/aupnix_black.png',
+              width: 145,
+              height: 44,
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.high,
+            ),
+          ),
+          Positioned(
+            right: 58,
+            child: IconButton(
+              onPressed: () {},
+              tooltip: 'Notifications',
+              icon: const Icon(
+                Icons.notifications_none_rounded,
+                size: 24,
+                color: _text,
+              ),
+            ),
+          ),
+          Positioned(
+            right: 10,
+            child: IconButton(
+              onPressed: () {},
+              tooltip: 'Profile',
+              icon: const Icon(
+                Icons.person_outline_rounded,
+                size: 25,
+                color: _text,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildSearchField() {
+    return AnimatedBuilder(
+      animation: _searchController,
+      builder: (context, _) {
+        final hasText = _searchController.text.isNotEmpty;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 61,
+          decoration: BoxDecoration(
+            color: _searchBackground,
+            borderRadius: BorderRadius.circular(31),
+            border: Border.all(color: _border),
+            boxShadow: const [
+              BoxShadow(
+                blurRadius: 10,
+                offset: Offset(0, 3),
+                color: Color(0x0B000000),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 20),
+              const Icon(
+                Icons.search_rounded,
+                size: 24,
+                color: _secondaryText,
+              ),
+              const SizedBox(width: 11),
+              Expanded(
+                child: TextField(
+                  controller: _searchController,
+                  focusNode: _searchFocusNode,
+                  textInputAction: TextInputAction.search,
+                  onSubmitted: (_) {
+                    _performSearch();
+                    _searchFocusNode.unfocus();
+                  },
+                  cursorColor: Colors.black,
+                  style: const TextStyle(
+                    color: _text,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: 'Search For Products Or Stores',
+                    hintStyle: TextStyle(
+                      color: _mutedText,
+                      fontSize: 14.5,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    border: InputBorder.none,
+                    isCollapsed: true,
+                  ),
+                ),
+              ),
+              if (hasText)
+                IconButton(
+                  onPressed: () {
+                    final hasNoResults =
+                        _searchResults.isEmpty &&
+                        _searchController.text.trim().isNotEmpty;
+
+                    if (hasNoResults && Navigator.of(context).canPop()) {
+                      _searchFocusNode.unfocus();
+                      Navigator.of(context).pop();
+                      return;
+                    }
+
+                    _searchController.clear();
+                  },
+                  splashRadius: 20,
+                  icon: const Icon(
+                    Icons.close_rounded,
+                    size: 20,
+                    color: _mutedText,
+                  ),
+                )
+              else
+                const SizedBox(width: 12),
+            ],
+            ),
+            ),
+            if (hasText) ...[
+              const SizedBox(height: 12),
+              _buildSearchFilters(),
+            ],
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSearchFilters() {
+    return SizedBox(
+      height: 40,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        itemCount: _filterLabels.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        itemBuilder: (context, index) {
+          final label = _filterLabels[index];
+          final selected = _activeFilters.contains(label);
+
+          return FilterChip(
+            selected: selected,
+            onSelected: (_) => _toggleFilter(label),
+            label: Text(label),
+            labelStyle: TextStyle(
+              color: selected ? Colors.white : _text,
+              fontSize: 12.5,
+              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+            ),
+            backgroundColor: Colors.white,
+            selectedColor: _text,
+            checkmarkColor: Colors.white,
+            side: BorderSide(
+              color: selected ? _text : _border,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 7,
+              vertical: 7,
+            ),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildRecentSearches() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Recent Searches',
+          style: TextStyle(
+            color: _text,
+            fontSize: 19,
+            fontWeight: FontWeight.w700,
+            height: 1.2,
+          ),
+        ),
+        const SizedBox(height: 14),
+        Wrap(
+          spacing: 9,
+          runSpacing: 9,
+          children: _recentSearches.map((search) {
+            return _SearchChip(
+              label: search,
+              icon: Icons.history_rounded,
+              onTap: () => _selectSearch(search),
+              onRemove: () => _removeRecentSearch(search),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPopularSearches() {
+    const searches = [
+      'Fresh Fruits',
+      'Snacks',
+      'Beverages',
+      'Personal Care',
+      'Household Essentials',
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Popular Searches',
+          style: TextStyle(
+            color: _text,
+            fontSize: 19,
+            fontWeight: FontWeight.w700,
+            height: 1.2,
+          ),
+        ),
+        const SizedBox(height: 14),
+        Column(
+          children: searches.map((search) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 1),
+              child: _PopularSearchRow(
+                label: search,
+                onTap: () => _selectSearch(search),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDiscoveryPreview() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Discover Products & Stores',
+          style: TextStyle(
+            color: _text,
+            fontSize: 19,
+            fontWeight: FontWeight.w700,
+            height: 1.2,
+          ),
+        ),
+        const SizedBox(height: 14),
+        const _DiscoveryCard(
+          icon: Icons.shopping_bag_outlined,
+          title: 'Products',
+          subtitle: 'Find products available at nearby stores',
+        ),
+        const SizedBox(height: 10),
+        const _DiscoveryCard(
+          icon: Icons.storefront_outlined,
+          title: 'Stores',
+          subtitle: 'Explore stores carrying what you need',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearchResults() {
+    final displayedResults = _displayedSearchResults;
+
+    if (_searchResults.isEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Search Results',
+            style: const TextStyle(
+              color: _text,
+              fontSize: 19,
+              fontWeight: FontWeight.w700,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'No products found for ""',
+            style: const TextStyle(
+              color: _mutedText,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      );
+    }
+
+    if (displayedResults.isEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Search Results',
+            style: TextStyle(
+              color: _text,
+              fontSize: 19,
+              fontWeight: FontWeight.w700,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'No products match the selected filters.',
+            style: TextStyle(
+              color: _mutedText,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          ' ',
+          style: const TextStyle(
+            color: _text,
+            fontSize: 19,
+            fontWeight: FontWeight.w700,
+            height: 1.2,
+          ),
+        ),
+        const SizedBox(height: 14),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: displayedResults.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 13,
+            childAspectRatio: 0.64,
+          ),
+          itemBuilder: (context, index) {
+            final product = displayedResults[index];
+
+            return _SearchProductCard(
+              product: product,
+              isFavourite: _favouriteProducts.contains(product.name),
+              onFavouriteTap: () => _toggleFavourite(product),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBottomNavigation(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(top: BorderSide(color: _divider)),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 12,
+            offset: Offset(0, -3),
+            color: Color(0x0A000000),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: 68,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _BottomNavigationItem(
+                icon: Icons.home_outlined,
+                label: 'Home',
+                onTap: () => Navigator.of(context).maybePop(),
+              ),
+              const _BottomNavigationItem(
+                icon: Icons.search_rounded,
+                label: 'Search',
+                active: true,
+              ),
+              const _BottomNavigationItem(
+                icon: Icons.event_note_outlined,
+                label: 'Reservations',
+              ),
+              const _BottomNavigationItem(
+                icon: Icons.favorite_border_rounded,
+                label: 'Favourites',
+              ),
+              const _BottomNavigationItem(
+                icon: Icons.person_outline_rounded,
+                label: 'Profile',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchProduct {
+  const _SearchProduct({
+    required this.name,
+    required this.unit,
+    required this.price,
+    required this.image,
+    required this.availability,
+    required this.store,
+    required this.category,
+  });
+
+  final String name;
+  final String unit;
+  final int price;
+  final String image;
+  final String availability;
+  final String store;
+  final String category;
+
+  double get distanceKm {
+    switch (store) {
+      case 'Croma - HSR Layout':
+        return 1.2;
+      case 'Star Market':
+        return 2.1;
+      case 'Reliance Smart':
+        return 3.4;
+      case 'More Megastore':
+        return 4.7;
+      default:
+        return 9.9;
+    }
+  }
+
+  bool get isOpen {
+    switch (store) {
+      case 'Croma - HSR Layout':
+        return true;
+      case 'Star Market':
+        return true;
+      case 'Reliance Smart':
+        return false;
+      case 'More Megastore':
+        return true;
+      default:
+        return false;
+    }
+  }
+}
+
+class _RankedSearchProduct {
+  const _RankedSearchProduct({
+    required this.product,
+    required this.score,
+    required this.index,
+  });
+
+  final _SearchProduct product;
+  final int score;
+  final int index;
+}
+
+class _SearchProductCard extends StatelessWidget {
+  const _SearchProductCard({
+    required this.product,
+    required this.isFavourite,
+    required this.onFavouriteTap,
+  });
+
+  final _SearchProduct product;
+  final bool isFavourite;
+  final VoidCallback onFavouriteTap;
+
+  static const _text = Color(0xFF111111);
+  static const _mutedText = Color(0xFF707070);
+  static const _border = Color(0xFFE5E5E5);
+  static const _green = Color(0xFF22A447);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        onTap: () {},
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: _border),
+            boxShadow: const [
+              BoxShadow(
+                blurRadius: 7,
+                offset: Offset(0, 2),
+                color: Color(0x08000000),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 12,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 6, 40, 3),
+                        child: Center(
+                          child: Image.asset(
+                            product.image,
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, _, _) {
+                              return const Icon(
+                                Icons.image_not_supported_outlined,
+                                size: 62,
+                                color: _mutedText,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      product.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: _text,
+                        fontSize: 15.5,
+                        fontWeight: FontWeight.w700,
+                        height: 1.2,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      product.unit,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: _mutedText,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w400,
+                        height: 1.2,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      '₹${product.price}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: _text,
+                        fontSize: 19,
+                        fontWeight: FontWeight.w700,
+                        height: 1.15,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      product.availability,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: _mutedText,
+                        fontSize: 10.8,
+                        fontWeight: FontWeight.w400,
+                        height: 1.25,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Many stores across Bengaluru',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: _mutedText,
+                        fontSize: 10.8,
+                        fontWeight: FontWeight.w400,
+                        height: 1.25,
+                      ),
+                    ),
+                    const SizedBox(height: 7),
+                    Container(height: 1, color: _border),
+                    const SizedBox(height: 6),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Expanded(
+                          child: Text(
+                            'Available at ',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: _mutedText,
+                              fontSize: 10.2,
+                              fontWeight: FontWeight.w400,
+                              height: 1.2,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 6,
+                          height: 6,
+                          decoration: const BoxDecoration(
+                            color: _green,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        const Text(
+                          'Open',
+                          style: TextStyle(
+                            color: _green,
+                            fontSize: 10.2,
+                            fontWeight: FontWeight.w600,
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      product.store,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: _text,
+                        fontSize: 10.3,
+                        fontWeight: FontWeight.w500,
+                        height: 1.2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 7,
+                right: 7,
+                child: IconButton(
+                  onPressed: onFavouriteTap,
+                  tooltip: isFavourite
+                      ? 'Remove from favourites'
+                      : 'Add to favourites',
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(
+                    minWidth: 36,
+                    minHeight: 36,
+                  ),
+                  icon: Icon(
+                    isFavourite
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
+                    size: 23,
+                    color: isFavourite ? Colors.red : _text,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class _SearchChip extends StatelessWidget {
+  const _SearchChip({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+    required this.onRemove,
+  });
+
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: const Color(0xFFFAFAFA),
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(13, 9, 8, 9),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: const Color(0xFFE5E5E5)),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: const Color(0xFF707070),
+              ),
+              const SizedBox(width: 7),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Color(0xFF444444),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(width: 3),
+              InkWell(
+                onTap: onRemove,
+                borderRadius: BorderRadius.circular(14),
+                child: const Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.close_rounded,
+                    size: 15,
+                    color: Color(0xFF707070),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PopularSearchRow extends StatelessWidget {
+  const _PopularSearchRow({
+    required this.label,
+    required this.onTap,
+  });
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Color(0xFFEEEEEE)),
+            ),
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.trending_up_rounded,
+                size: 19,
+                color: Color(0xFF707070),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    color: Color(0xFF444444),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 14,
+                color: Color(0xFF999999),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DiscoveryCard extends StatelessWidget {
+  const _DiscoveryCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE5E5E5)),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 8,
+            offset: Offset(0, 2),
+            color: Color(0x08000000),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 46,
+            height: 46,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF7F7F7),
+              borderRadius: BorderRadius.circular(13),
+            ),
+            child: Icon(
+              icon,
+              size: 24,
+              color: const Color(0xFF222222),
+            ),
+          ),
+          const SizedBox(width: 13),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Color(0xFF111111),
+                    fontSize: 14.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    color: Color(0xFF707070),
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BottomNavigationItem extends StatelessWidget {
+  const _BottomNavigationItem({
+    required this.icon,
+    required this.label,
+    this.active = false,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool active;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final child = SizedBox(
+      width: 64,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 23,
+            color: active
+                ? const Color(0xFF111111)
+                : const Color(0xFF777777),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: active
+                  ? const Color(0xFF111111)
+                  : const Color(0xFF777777),
+              fontSize: 10.5,
+              fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (onTap == null) {
+      return child;
+    }
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: child,
+    );
+  }
+}
+
+
+
+
+
+
+

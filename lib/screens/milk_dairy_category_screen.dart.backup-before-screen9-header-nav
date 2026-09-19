@@ -1,0 +1,420 @@
+﻿import 'package:flutter/material.dart';
+
+class MilkDairyCategoryScreen extends StatelessWidget {
+  const MilkDairyCategoryScreen({super.key});
+
+  static const _text = Color(0xFF111111);
+  static const _mutedText = Color(0xFF707070);
+
+  static const _border = Color(0xFFE5E5E5);
+
+  static const List<_MilkDairyProduct> _products = [
+    _MilkDairyProduct(
+      name: 'Fresh Milk 1 L',
+      price: '₹68',
+      image: 'assets/images/Milk & Dairy.png',
+    ),
+    _MilkDairyProduct(
+      name: 'Toned Milk 1 L',
+      price: '₹58',
+      image: 'assets/images/Milk & Dairy.png',
+    ),
+    _MilkDairyProduct(
+      name: 'Full Cream Milk 1 L',
+      price: '₹72',
+      image: 'assets/images/Milk & Dairy.png',
+    ),
+    _MilkDairyProduct(
+      name: 'Curd 500 g',
+      price: '₹45',
+      image: 'assets/images/Milk & Dairy.png',
+    ),
+    _MilkDairyProduct(
+      name: 'Greek Yogurt 400 g',
+      price: '₹95',
+      image: 'assets/images/Milk & Dairy.png',
+    ),
+    _MilkDairyProduct(
+      name: 'Paneer 200 g',
+      price: '₹85',
+      image: 'assets/images/Milk & Dairy.png',
+    ),
+    _MilkDairyProduct(
+      name: 'Butter 100 g',
+      price: '₹58',
+      image: 'assets/images/Milk & Dairy.png',
+    ),
+    _MilkDairyProduct(
+      name: 'Cheese 200 g',
+      price: '₹125',
+      image: 'assets/images/Milk & Dairy.png',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildHeader(context),
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          _buildSearchField(),
+                          const SizedBox(height: 24),
+                          const Text(
+                            'Milk & Dairy',
+                            style: TextStyle(
+                              color: _text,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          const Text(
+                            'Discover milk, dairy products and more from nearby stores.',
+                            style: TextStyle(
+                              color: _mutedText,
+                              fontSize: 12,
+                              height: 1.4,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                    sliver: SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final product = _products[index];
+                          return _MilkDairyProductCard(product: product);
+                        },
+                        childCount: _products.length,
+                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 13,
+                        mainAxisSpacing: 13,
+                        childAspectRatio: 0.67,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: const _MilkDairyBottomNavigation(),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return SizedBox(
+      height: 64,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 20,
+                color: _text,
+              ),
+              tooltip: 'Back',
+            ),
+            const SizedBox(width: 4),
+            const Text(
+              'AUPNIX',
+              style: TextStyle(
+                color: _text,
+                fontSize: 19,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.4,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchField() {
+    return Container(
+      height: 60,
+      decoration: BoxDecoration(
+        color: const Color(0xFFFAFAFA),
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: _border),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 4,
+            offset: Offset(0, 1),
+            color: Color(0x08000000),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 18),
+      child: const Row(
+        children: [
+          Icon(
+            Icons.search_rounded,
+            size: 23,
+            color: _mutedText,
+          ),
+          SizedBox(width: 12),
+          Text(
+            'Search In Milk & Dairy',
+            style: TextStyle(
+              color: _mutedText,
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MilkDairyProductCard extends StatelessWidget {
+  const _MilkDairyProductCard({
+    required this.product,
+  });
+
+  final _MilkDairyProduct product;
+
+  static const _text = Color(0xFF111111);
+  static const _mutedText = Color(0xFF707070);
+
+  static const _border = Color(0xFFE5E5E5);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _border),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 7,
+            offset: Offset(0, 2),
+            color: Color(0x08000000),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Image.asset(
+                        product.image,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, _, _) {
+                          return const Icon(
+                            Icons.local_drink_outlined,
+                            size: 64,
+                            color: _mutedText,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: IconButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(
+                        minWidth: 34,
+                        minHeight: 34,
+                      ),
+                      icon: const Icon(
+                        Icons.favorite_border_rounded,
+                        size: 21,
+                        color: _text,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              product.name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: _text,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                height: 1.25,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              product.price,
+              style: const TextStyle(
+                color: _text,
+                fontSize: 19,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'From price • Widely Available',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Color(0xFF444444),
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 3),
+            const Text(
+              'Many stores across Bengaluru',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: _mutedText,
+                fontSize: 10.5,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MilkDairyBottomNavigation extends StatelessWidget {
+  const _MilkDairyBottomNavigation();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 74,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          top: BorderSide(
+            color: Color(0xFFE5E5E5),
+          ),
+        ),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 12,
+            offset: Offset(0, -3),
+            color: Color(0x0A000000),
+          ),
+        ],
+      ),
+      child: const SafeArea(
+        top: false,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _MilkDairyNavItem(
+              icon: Icons.home_rounded,
+              label: 'Home',
+            ),
+            _MilkDairyNavItem(
+              icon: Icons.search_rounded,
+              label: 'Search',
+            ),
+            _MilkDairyNavItem(
+              icon: Icons.event_note_outlined,
+              label: 'Reservations',
+            ),
+            _MilkDairyNavItem(
+              icon: Icons.favorite_border_rounded,
+              label: 'Favourites',
+            ),
+            _MilkDairyNavItem(
+              icon: Icons.person_outline_rounded,
+              label: 'Profile',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MilkDairyNavItem extends StatelessWidget {
+  const _MilkDairyNavItem({
+    required this.icon,
+    required this.label,
+  });
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 66,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 23,
+            color: const Color(0xFF707070),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Color(0xFF707070),
+              fontSize: 10.5,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MilkDairyProduct {
+  const _MilkDairyProduct({
+    required this.name,
+    required this.price,
+    required this.image,
+  });
+
+  final String name;
+  final String price;
+  final String image;
+}
+
+
+
+
+
